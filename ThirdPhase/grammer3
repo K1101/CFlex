@@ -1,0 +1,268 @@
+program : program commond 
+	;
+
+commond : func
+        | declaration
+	;
+
+func : declaration-specifier-crt direct-declarator
+declaration-crt compound-statement
+
+declaration-specifier-crt : 
+	| declaration-specifier-crt declaration-specifie 
+	;
+
+declaration-specifier-atlist : declaration-specifier 
+	|declaration-specifier-atlist declaration-specifier
+	;
+
+declaration-specifier : storage-class-specifier
+        | type-specifier
+        | type-qualifier
+	;
+
+storage-class-specifier : auto
+        | register
+        | static
+        | extern
+        | typedef
+	;
+
+type-specifier : void
+        | char
+        | int
+        | double
+        | struct-or-union-specifier
+        | typedef-name
+	;
+
+struct-or-union-specifier : struct-or-union identifier
+Open_Br struct-declaration-atlist Close_Br
+        | struct-or-union Open_Br struct-declaration-atlist Close_Br
+        | struct-or-union identifier
+	;
+
+struct-or-union : struct
+        | union
+	;
+
+
+struct-declaration-atlist : struct-declaration
+	| struct-declaration-atlist struct-declaration 
+	;
+  
+struct-declaration : specifier-qualifier-crt struct-declarator-list;
+
+
+specifier-qualifier-atlist: specifier-qualifier
+	|specifier-qualifier-atlist specifier-qualifier
+	;
+
+specifier-qualifier-crt :
+	|specifier-qualifier-crt specifier-qualifier 
+	;
+
+specifier-qualifier : type-specifier
+        | type-qualifier
+	;
+
+
+struct-declarator-list : struct-declarator
+        | struct-declarator-list comma struct-declarator
+	;
+
+struct-declarator : direct-declarator
+        | direct-declarator colon constant-expression
+        | colon constant-expression
+	;
+
+
+type-qualifier : const
+        | volatile
+	;
+
+direct-declarator : identifier
+        | OpnP direct-declarator ClsP
+        | direct-declarator Open_sqBr constant-expression-optional Close_sqBr
+        | direct-declarator OpnP parameter-type-list ClsP
+        | direct-declarator OpnP identifier-crt ClsP
+	;
+
+constant-expression-optional :
+	| constant-expression
+	;
+
+constant-expression : logical-or-expression ;
+
+logical-or-expression :logical-and-expression
+        | logical-or-expression Op_Or logical-and-expression
+	;
+
+logical-and-expression : inclusive-or-expression
+        | logical-and-expression Op_and inclusive-or-expression
+	;
+
+inclusive-or-expression : exclusive-or-expression
+        | inclusive-or-expression
+        ;
+
+equality-expression : relational-expression
+        | equality-expression Op_Equal relational-expression
+        | equality-expression Op_NotEqual relational-expression
+	;
+
+relational-expression : additive-expression
+        | relational-expression Op_GreaterThen        additive-expression
+        | relational-expression Op_LessThen           additive-expression
+        | relational-expression Op_GreaterThenOrEqual additive-expression
+        | relational-expression Op_LessThenOrEqual    additive-expression
+	;
+
+
+additive-expression : multiplicative-expression
+        | additive-expression Op_Plus   multiplicative-expression
+        | additive-expression Op_Minus  multiplicative-expression
+	;
+
+multiplicative-expression : cast-expression
+        | multiplicative-expression Op_Mult cast-expression
+        | multiplicative-expression Op_Div  cast-expression
+	;
+
+cast-expression : unary-expression
+        | OpnP type-name ClsP cast-expression
+	;
+
+unary-expression : postfix-expression
+        | unary-operator cast-expression
+	;
+
+postfix-expression : primary-expression
+        | postfix-expression Open_sqBr expression Close_sqBr
+        | postfix-expression OpnP assignment-expression-crt ClsP
+        | postfix-expression dot identifier
+
+primary-expression : identifier
+        | constant
+        | string
+        | OpnP expression ClsP
+	;
+
+constant : integer-constant
+        | character-constant
+        | floating-constant
+	;
+
+expression-optional :
+	| expression
+	;
+
+expression : assignment-expression
+        | expression comma assignment-expression
+	;
+
+assignment-expression-crt : 
+	| assignment-expression-crt assignment-expressio
+	;
+
+assignment-expression : logical-or-expression
+        | unary-expression Op_assign assignment-expression
+
+unary-operator : Up_and
+        | Up_mult
+        | Up_plus
+        | Up_minus
+        | Up_LogicalNot
+        | Up_not
+	;
+
+type-name : specifier-qualifier-atlist direct-abstract-declarator-optional
+
+parameter-type-list-optional : 
+	|parameter-type-list
+	;
+
+parameter-type-list : parameter-list;
+        
+parameter-list : parameter-declaration
+        | parameter-list comma parameter-declaration
+	;
+
+parameter-declaration : declaration-specifier-atlist direct-declarator
+        | declaration-specifier-atlist
+	;
+
+direct-abstract-declarator-optional : 
+	|direct-abstract-declarator
+	;
+
+direct-abstract-declarator
+        | declaration-specifier-atlist
+	;
+
+direct-abstract-declarator : OpnP direct-abstract-declarator ClsP
+        | direct-abstract-declarator-optional 
+		Open_sqBr constant-expression-optional Close_sqBr
+        | direct-abstract-declarator-optional
+		OpnP parameter-type-list-optional ClsP
+	;
+
+typedef-name : identifier;
+
+declaration-crt : 
+	| declaration-crt declaration 
+	;
+
+declaration-specifier-atlist :declaration-specifier
+	|declaration-specifier-atlist declaration-specifier
+	;
+
+declaration : declaration-specifier-atlist init-declarator-crt SEMICOL ;
+
+init-declarator-crt :
+	| init-declarator-crt init-declarator 
+	;
+
+init-declarator : direct-declarator
+        | direct-declarator Op_Assign initializer
+	;
+
+initializer : assignment-expression
+        | Open_Br initializer-list Close_Br
+        | Open_Br initializer-list comma Close_Br
+	;
+
+initializer-list : initializer
+        | initializer-list comma initializer
+	;
+
+compound-statement : Open_Br declaration-crt statement-crt Close_Br ;
+
+statement-crt :
+	| statement-crt statement
+	;
+	
+statement : expression-statement
+        | compound-statement
+        | if-statement
+        | while-statement
+        | jump-statement
+	;
+
+expression-statement : expression_optional SEMICOL ;
+
+if-statement : if OpnP expression ClsP statement
+        | if OpnP expression ClsP statement else statement 
+	;
+
+while-statement : while OpnP expression ClsP statement ;
+
+jump-statement : goto identifier SEMICOL
+        | continue SEMICOL
+        | break SEMICOL
+        | return {expression}? SEMICOL
+	;
+
+identifier-crt : 
+	| identifier-crt identifier 
+	;
