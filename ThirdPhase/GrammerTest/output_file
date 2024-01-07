@@ -1,0 +1,88 @@
+%option noyywrap
+
+%{
+//#include <iostream>
+#include "cppBison33.tab.h"
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <string.h>
+    extern FILE *yyin;
+    extern FILE *yyout;
+    void ret_print(char *token_type);
+%}
+
+
+
+%%
+
+
+if 		{	
+			printf("lex fine some if in there ");
+			return (Key_if);
+		}
+
+else 		return (Key_else);
+while 		return (Key_while);
+
+/*
+return 		return (Key_return);
+break    	return (Key_break);
+continue    	return (Key_continue);
+goto    	return (Key_goto);
+[.]	    	return (Key_dot);
+[;]	    	return (Key_SEMICOL);
+[,]	    	return (Key_comma);
+[:]	    	return (Key_colon);
+int	    	return (Key_int);
+string    	return (Key_string);
+char    	return (Key_char);
+double    	return (Key_double);
+void    	return (Key_void);
+const    	return (Key_const);
+struct    	return (Key_struct);
+static    	return (Key_static);
+auto    	return (Key_auto);
+typedef    	return (Key_typedef);
+union    	return (Key_union);
+register    	return (Key_register);
+extern    	return (Key_extern);
+volatile    	return (Key_volatile);
+
+==    		{ print ("lex find Op_Equal token") ; return (Op_Equal); };
+!=   		{ print ("lex find Op_NotEqual token") ; return (Op_NotEqual); };
+=    		{ print ("lex find Op_Assign token") ; return (Op_Assign); };
+[\*]    	{ print ("lex find Op_Mult token") ; return (Op_Mult); };
+[\\]    	{ print ("lex find Op_Div token") ; return (Op_Div); };
+[\+]    	{ print ("lex find Op_Plus token") ; return (Op_Plus); };
+[\-]    	{ print ("lex find Op_Minus token") ; return (Op_Minus); };
+[\<]    	{ print ("lex find Op_LessThen token") ; return (Op_LessThen); };
+[\>]    	{ print ("lex find Op_GreaterThen token") ; return (Op_GreaterThen); };
+(<=|=<)		{ print ("lex find Op_LessThenOrEqual token") ; return (Op_LessThenOrEqual); };
+(=>|>=)		{ print ("lex find Op_GreaterThenOrEqual token") ; return (Op_GreaterThenOrEqual); };
+[\&]		{ print ("lex find Up_and token") ; return (Up_and); };
+&&		{ print ("lex find Op_and token") ; return (Op_and); };
+[\|]		{ print ("lex find Up_or token") ; return (Up_or); };
+(\|\|)		{ print ("lex find Op_and token") ; return (Op_and); };
+[\~]		{ print ("lex find Up_LogicalNot token") ; return (Up_LogicalNot); };
+[\!]		{ print ("lex find Up_not token") ; return (Up_not); };
+[\^]		{ print ("lex find Up_xor token") ; return (Up_xor); };
+
+
+
+
+[a-zA-Z]			{ print ("lex find char_chr token") ; return (char_chr); }; 
+[0-9]+\.[0-9]+  		{ print ("lex find double_num token") ; return (double_num); };
+[0-9]+          		{ print ("lex find integer_num token") ; return (integer_num); };
+[a-zA-Z]+[0-9]* 		{ print ("lex find identifier token") ; return (identifier); };
+(\"|\')(" "*[a-zA-Z0-9]*" "*)*(\"|\') 	{ print ("lex find string_str token") ; return (string_str); };
+
+
+[\(]    	{ print ("lex find OpnP  token") ; return (OpnP ); };
+[\)]    	{ print ("lex find ClsP  token") ; return (ClsP ); };
+[\{]    	{ print ("lex find Open_Br token") ; return (Open_Br); };
+[\}]    	{ print ("lex find Close_Br token") ; return (Close_Br); };
+[\[]            { print ("lex find Open_sqBr token") ; return (Open_sqBr); };
+[\]]
+%%		{ print ("lex find Close_sqBr token") ; return (Close_sqBr); };
+*/
+

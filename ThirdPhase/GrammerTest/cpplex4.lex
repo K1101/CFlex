@@ -16,37 +16,31 @@
 %%
 
 
-if 		{	
-			printf("lex fine some if in there ");
-			return (Key_if);
-		}
-
-else 		return (Key_else);
-while 		return (Key_while);
-%%
-/*
-return 		return (Key_return);
-break    	return (Key_break);
-continue    	return (Key_continue);
-goto    	return (Key_goto);
-[.]	    	return (Key_dot);
-[;]	    	return (Key_SEMICOL);
-[,]	    	return (Key_comma);
-[:]	    	return (Key_colon);
-int	    	return (Key_int);
-string    	return (Key_string);
-char    	return (Key_char);
-double    	return (Key_double);
-void    	return (Key_void);
-const    	return (Key_const);
-struct    	return (Key_struct);
-static    	return (Key_static);
-auto    	return (Key_auto);
-typedef    	return (Key_typedef);
-union    	return (Key_union);
-register    	return (Key_register);
-extern    	return (Key_extern);
-volatile    	return (Key_volatile);
+if		return(Key_if);
+else 		return(Key_else);
+while 		return(Key_while);
+return 		return(Key_return);
+break    	return(Key_break);
+continue    	return(Key_continue);
+goto    	return(Key_goto);
+[.]	    	return(Key_dot);
+[;]	    	return(Key_SEMICOL);
+[,]	    	return(Key_comma);
+[:]	    	return(Key_colon);
+int	    	return(Key_int);
+string    	return(Key_string);
+char    	return(Key_char);
+double    	return(Key_double);
+void    	return(Key_void);
+const    	return(Key_const);
+struct    	return(Key_struct);
+static    	return(Key_static);
+auto    	return(Key_auto);
+typedef    	return(Key_typedef);
+union    	return(Key_union);
+register    	return(Key_register);
+extern    	return(Key_extern);
+volatile    	return(Key_volatile);
 
 ==    		return(Op_Equal);
 !=   		return(Op_NotEqual);
@@ -82,7 +76,8 @@ volatile    	return (Key_volatile);
 [\{]    	return(Open_Br);
 [\}]    	return(Close_Br);
 [\[]            return(Open_sqBr);
-[\]]
-%%		return(Close_sqBr);
-*/
+[\]]		return(Close_sqBr);
+
+
+%%	
 
