@@ -276,8 +276,7 @@ statement : expression_statement
 
 expression_statement : expression_optional Key_SEMICOL ;
 
-if_statement : Key_if //OpnP expression ClsP statement
-	     {printf("inter in if without else statement !!");}
+if_statement : Key_if OpnP expression ClsP statement {printf("inter in if without else statement !!");}
        	| Key_if OpnP expression ClsP statement Key_else statement
 	;
 

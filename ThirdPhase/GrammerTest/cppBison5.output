@@ -1,0 +1,3616 @@
+Terminals unused in grammar
+
+    Key_string
+
+
+State 57 conflicts: 1 shift/reduce
+State 60 conflicts: 2 shift/reduce
+State 61 conflicts: 1 shift/reduce
+State 64 conflicts: 1 shift/reduce
+State 68 conflicts: 14 shift/reduce
+State 86 conflicts: 2 shift/reduce
+State 88 conflicts: 1 shift/reduce
+State 115 conflicts: 1 shift/reduce
+State 131 conflicts: 1 shift/reduce
+State 142 conflicts: 1 shift/reduce
+State 146 conflicts: 2 shift/reduce
+State 147 conflicts: 2 shift/reduce
+State 148 conflicts: 2 shift/reduce
+State 149 conflicts: 2 shift/reduce
+State 150 conflicts: 1 shift/reduce
+State 151 conflicts: 1 shift/reduce
+State 163 conflicts: 1 shift/reduce
+State 216 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: ε
+    2        | program commond
+
+    3 commond: func
+
+    4 func: declaration_specifier_crt direct_declarator declaration_crt compound_statement
+
+    5 declaration_specifier_crt: ε
+    6                          | declaration_specifier_crt declaration_specifier
+
+    7 declaration_specifier_atlist: declaration_specifier
+    8                             | declaration_specifier_atlist declaration_specifier
+
+    9 declaration_specifier: storage_class_specifier
+   10                      | type_specifier
+   11                      | type_qualifier
+
+   12 storage_class_specifier: Key_auto
+   13                        | Key_register
+   14                        | Key_static
+   15                        | Key_extern
+   16                        | Key_typedef
+
+   17 type_specifier: Key_void
+   18               | Key_char
+   19               | Key_int
+   20               | Key_double
+   21               | struct_or_union_specifier
+
+   22 struct_or_union_specifier: struct_or_union identifier Open_Br struct_declaration_atlist Close_Br
+   23                          | struct_or_union Open_Br struct_declaration_atlist Close_Br
+   24                          | struct_or_union identifier
+
+   25 struct_or_union: Key_struct
+   26                | Key_union
+
+   27 struct_declaration_atlist: struct_declaration
+   28                          | struct_declaration_atlist struct_declaration
+
+   29 struct_declaration: specifier_qualifier_crt struct_declarator_list
+
+   30 specifier_qualifier_atlist: specifier_qualifier
+   31                           | specifier_qualifier_atlist specifier_qualifier
+
+   32 specifier_qualifier_crt: ε
+   33                        | specifier_qualifier_crt specifier_qualifier
+
+   34 specifier_qualifier: type_specifier
+   35                    | type_qualifier
+
+   36 struct_declarator_list: struct_declarator
+   37                       | struct_declarator_list Key_comma struct_declarator
+
+   38 struct_declarator: direct_declarator
+   39                  | direct_declarator Key_colon constant_expression
+   40                  | Key_colon constant_expression
+
+   41 type_qualifier: Key_const
+   42               | Key_volatile
+
+   43 direct_declarator: identifier
+   44                  | OpnP direct_declarator ClsP
+   45                  | direct_declarator Open_sqBr constant_expression_optional Close_sqBr
+   46                  | direct_declarator OpnP parameter_type_list ClsP
+   47                  | direct_declarator OpnP identifier_crt ClsP
+
+   48 constant_expression_optional: ε
+   49                             | constant_expression
+
+   50 constant_expression: logical_or_expression
+
+   51 logical_or_expression: logical_and_expression
+   52                      | logical_or_expression Op_Or logical_and_expression
+
+   53 logical_and_expression: inclusive_or_expression
+   54                       | logical_and_expression Op_and inclusive_or_expression
+
+   55 inclusive_or_expression: exclusive_or_expression
+   56                        | inclusive_or_expression Up_or exclusive_or_expression
+
+   57 exclusive_or_expression: and_expression
+   58                        | exclusive_or_expression Up_xor and_expression
+
+   59 and_expression: equality_expression
+   60               | and_expression Up_and equality_expression
+
+   61 equality_expression: relational_expression
+   62                    | equality_expression Op_Equal relational_expression
+   63                    | equality_expression Op_NotEqual relational_expression
+
+   64 relational_expression: additive_expression
+   65                      | relational_expression Op_GreaterThen additive_expression
+   66                      | relational_expression Op_LessThen additive_expression
+   67                      | relational_expression Op_GreaterThenOrEqual additive_expression
+   68                      | relational_expression Op_LessThenOrEqual additive_expression
+
+   69 additive_expression: multiplicative_expression
+   70                    | additive_expression Op_Plus multiplicative_expression
+   71                    | additive_expression Op_Minus multiplicative_expression
+
+   72 multiplicative_expression: cast_expression
+   73                          | multiplicative_expression Op_Mult cast_expression
+   74                          | multiplicative_expression Op_Div cast_expression
+
+   75 cast_expression: unary_expression
+   76                | OpnP type_name ClsP cast_expression
+
+   77 unary_expression: postfix_expression
+   78                 | unary_operator cast_expression
+
+   79 postfix_expression: primary_expression
+   80                   | postfix_expression Open_sqBr expression Close_sqBr
+   81                   | postfix_expression OpnP assignment_expression_crt ClsP
+   82                   | postfix_expression Key_dot identifier
+
+   83 primary_expression: identifier
+   84                   | constant
+   85                   | string_str
+   86                   | OpnP expression ClsP
+
+   87 constant: integer_num
+   88         | double_num
+   89         | char_chr
+
+   90 expression_optional: ε
+   91                    | expression
+
+   92 expression: assignment_expression
+   93           | expression Key_comma assignment_expression
+
+   94 assignment_expression_crt: ε
+   95                          | assignment_expression_crt assignment_expression
+
+   96 assignment_expression: logical_or_expression
+   97                      | unary_expression Op_Assign assignment_expression
+
+   98 unary_operator: Up_and
+   99               | Op_Mult
+  100               | Op_Plus
+  101               | Op_Minus
+  102               | Up_LogicalNot
+  103               | Up_not
+
+  104 type_name: specifier_qualifier_atlist direct_abstract_declarator_optional
+
+  105 parameter_type_list_optional: ε
+  106                             | parameter_type_list
+
+  107 parameter_type_list: parameter_list
+  108                    | parameter_type_list parameter_list
+
+  109 parameter_list: parameter_declaration
+  110               | parameter_list Key_comma parameter_declaration
+
+  111 parameter_declaration: declaration_specifier_atlist direct_declarator
+  112                      | declaration_specifier_atlist direct_abstract_declarator
+  113                      | declaration_specifier_atlist
+
+  114 direct_abstract_declarator_optional: ε
+  115                                    | direct_abstract_declarator
+
+  116 direct_abstract_declarator: OpnP direct_abstract_declarator ClsP
+  117                           | direct_abstract_declarator_optional Open_sqBr constant_expression_optional Close_sqBr
+  118                           | direct_abstract_declarator_optional OpnP parameter_type_list_optional ClsP
+
+  119 declaration_crt: ε
+  120                | declaration_crt declaration
+
+  121 declaration: declaration_specifier_atlist init_declarator_crt Key_SEMICOL
+
+  122 init_declarator_crt: ε
+  123                    | init_declarator_crt init_declarator
+
+  124 init_declarator: direct_declarator
+  125                | direct_declarator Op_Assign initializer
+
+  126 initializer: assignment_expression
+  127            | Open_Br initializer_list Close_Br
+  128            | Open_Br initializer_list Key_comma Close_Br
+
+  129 initializer_list: initializer
+  130                 | initializer_list Key_comma initializer
+
+  131 compound_statement: Open_Br declaration_crt statement_crt Close_Br
+
+  132 statement_crt: ε
+  133              | statement_crt statement
+
+  134 statement: expression_statement
+  135          | compound_statement
+  136          | if_statement
+  137          | while_statement
+  138          | jump_statement
+
+  139 expression_statement: expression_optional Key_SEMICOL
+
+  140 if_statement: Key_if OpnP expression ClsP statement
+  141             | Key_if OpnP expression ClsP statement Key_else statement
+
+  142 while_statement: Key_while OpnP expression ClsP statement
+
+  143 jump_statement: Key_goto identifier Key_SEMICOL
+  144               | Key_continue Key_SEMICOL
+  145               | Key_break Key_SEMICOL
+  146               | Key_return expression_optional Key_SEMICOL
+
+  147 identifier_crt: ε
+  148               | identifier_crt identifier
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    Key_return (258) 146
+    Key_break (259) 145
+    Key_continue (260) 144
+    Key_else (261) 141
+    Key_while (262) 142
+    Key_if (263) 140 141
+    Key_goto (264) 143
+    Key_dot (265) 82
+    Key_SEMICOL (266) 121 139 143 144 145 146
+    Key_comma (267) 37 93 110 128 130
+    Key_colon (268) 39 40
+    Up_not (269) 103
+    Up_LogicalNot (270) 102
+    Up_and (271) 60 98
+    Up_xor (272) 58
+    Up_or (273) 56
+    Op_Assign (274) 97 125
+    Op_Minus (275) 71 101
+    Op_Mult (276) 73 99
+    Op_Div (277) 74
+    Op_LessThenOrEqual (278) 68
+    Op_Equal (279) 62
+    Op_NotEqual (280) 63
+    Op_GreaterThen (281) 65
+    Op_LessThen (282) 66
+    Op_GreaterThenOrEqual (283) 67
+    Op_Plus (284) 70 100
+    Op_and (285) 54
+    Op_Or (286) 52
+    Close_Br (287) 22 23 127 128 131
+    Close_sqBr (288) 45 80 117
+    Open_sqBr (289) 45 80 117
+    Open_Br (290) 22 23 127 128 131
+    ClsP (291) 44 46 47 76 81 86 116 118 140 141 142
+    OpnP (292) 44 46 47 76 81 86 116 118 140 141 142
+    Key_string (293)
+    Key_const (294) 41
+    Key_struct (295) 25
+    Key_double (296) 20
+    Key_int (297) 19
+    Key_char (298) 18
+    Key_void (299) 17
+    Key_typedef (300) 16
+    Key_static (301) 14
+    Key_union (302) 26
+    Key_auto (303) 12
+    Key_register (304) 13
+    Key_extern (305) 15
+    Key_volatile (306) 42
+    char_chr (307) 89
+    double_num (308) 88
+    integer_num (309) 87
+    identifier (310) 22 24 43 82 83 143 148
+    string_str (311) 85
+
+
+Nonterminals, with rules where they appear
+
+    $accept (57)
+        on left: 0
+    program (58)
+        on left: 1 2
+        on right: 0 2
+    commond (59)
+        on left: 3
+        on right: 2
+    func (60)
+        on left: 4
+        on right: 3
+    declaration_specifier_crt (61)
+        on left: 5 6
+        on right: 4 6
+    declaration_specifier_atlist (62)
+        on left: 7 8
+        on right: 8 111 112 113 121
+    declaration_specifier (63)
+        on left: 9 10 11
+        on right: 6 7 8
+    storage_class_specifier (64)
+        on left: 12 13 14 15 16
+        on right: 9
+    type_specifier (65)
+        on left: 17 18 19 20 21
+        on right: 10 34
+    struct_or_union_specifier (66)
+        on left: 22 23 24
+        on right: 21
+    struct_or_union (67)
+        on left: 25 26
+        on right: 22 23 24
+    struct_declaration_atlist (68)
+        on left: 27 28
+        on right: 22 23 28
+    struct_declaration (69)
+        on left: 29
+        on right: 27 28
+    specifier_qualifier_atlist (70)
+        on left: 30 31
+        on right: 31 104
+    specifier_qualifier_crt (71)
+        on left: 32 33
+        on right: 29 33
+    specifier_qualifier (72)
+        on left: 34 35
+        on right: 30 31 33
+    struct_declarator_list (73)
+        on left: 36 37
+        on right: 29 37
+    struct_declarator (74)
+        on left: 38 39 40
+        on right: 36 37
+    type_qualifier (75)
+        on left: 41 42
+        on right: 11 35
+    direct_declarator (76)
+        on left: 43 44 45 46 47
+        on right: 4 38 39 44 45 46 47 111 124 125
+    constant_expression_optional (77)
+        on left: 48 49
+        on right: 45 117
+    constant_expression (78)
+        on left: 50
+        on right: 39 40 49
+    logical_or_expression (79)
+        on left: 51 52
+        on right: 50 52 96
+    logical_and_expression (80)
+        on left: 53 54
+        on right: 51 52 54
+    inclusive_or_expression (81)
+        on left: 55 56
+        on right: 53 54 56
+    exclusive_or_expression (82)
+        on left: 57 58
+        on right: 55 56 58
+    and_expression (83)
+        on left: 59 60
+        on right: 57 58 60
+    equality_expression (84)
+        on left: 61 62 63
+        on right: 59 60 62 63
+    relational_expression (85)
+        on left: 64 65 66 67 68
+        on right: 61 62 63 65 66 67 68
+    additive_expression (86)
+        on left: 69 70 71
+        on right: 64 65 66 67 68 70 71
+    multiplicative_expression (87)
+        on left: 72 73 74
+        on right: 69 70 71 73 74
+    cast_expression (88)
+        on left: 75 76
+        on right: 72 73 74 76 78
+    unary_expression (89)
+        on left: 77 78
+        on right: 75 97
+    postfix_expression (90)
+        on left: 79 80 81 82
+        on right: 77 80 81 82
+    primary_expression (91)
+        on left: 83 84 85 86
+        on right: 79
+    constant (92)
+        on left: 87 88 89
+        on right: 84
+    expression_optional (93)
+        on left: 90 91
+        on right: 139 146
+    expression (94)
+        on left: 92 93
+        on right: 80 86 91 93 140 141 142
+    assignment_expression_crt (95)
+        on left: 94 95
+        on right: 81 95
+    assignment_expression (96)
+        on left: 96 97
+        on right: 92 93 95 97 126
+    unary_operator (97)
+        on left: 98 99 100 101 102 103
+        on right: 78
+    type_name (98)
+        on left: 104
+        on right: 76
+    parameter_type_list_optional (99)
+        on left: 105 106
+        on right: 118
+    parameter_type_list (100)
+        on left: 107 108
+        on right: 46 106 108
+    parameter_list (101)
+        on left: 109 110
+        on right: 107 108 110
+    parameter_declaration (102)
+        on left: 111 112 113
+        on right: 109 110
+    direct_abstract_declarator_optional (103)
+        on left: 114 115
+        on right: 104 117 118
+    direct_abstract_declarator (104)
+        on left: 116 117 118
+        on right: 112 115 116
+    declaration_crt (105)
+        on left: 119 120
+        on right: 4 120 131
+    declaration (106)
+        on left: 121
+        on right: 120
+    init_declarator_crt (107)
+        on left: 122 123
+        on right: 121 123
+    init_declarator (108)
+        on left: 124 125
+        on right: 123
+    initializer (109)
+        on left: 126 127 128
+        on right: 125 129 130
+    initializer_list (110)
+        on left: 129 130
+        on right: 127 128 130
+    compound_statement (111)
+        on left: 131
+        on right: 4 135
+    statement_crt (112)
+        on left: 132 133
+        on right: 131 133
+    statement (113)
+        on left: 134 135 136 137 138
+        on right: 133 140 141 142
+    expression_statement (114)
+        on left: 139
+        on right: 134
+    if_statement (115)
+        on left: 140 141
+        on right: 136
+    while_statement (116)
+        on left: 142
+        on right: 137
+    jump_statement (117)
+        on left: 143 144 145 146
+        on right: 138
+    identifier_crt (118)
+        on left: 147 148
+        on right: 47 148
+
+
+State 0
+
+    0 $accept: • program $end
+
+    $default  reduce using rule 1 (program)
+
+    program  go to state 1
+
+
+State 1
+
+    0 $accept: program • $end
+    2 program: program • commond
+
+    $end  shift, and go to state 2
+
+    $default  reduce using rule 5 (declaration_specifier_crt)
+
+    commond                    go to state 3
+    func                       go to state 4
+    declaration_specifier_crt  go to state 5
+
+
+State 2
+
+    0 $accept: program $end •
+
+    $default  accept
+
+
+State 3
+
+    2 program: program commond •
+
+    $default  reduce using rule 2 (program)
+
+
+State 4
+
+    3 commond: func •
+
+    $default  reduce using rule 3 (commond)
+
+
+State 5
+
+    4 func: declaration_specifier_crt • direct_declarator declaration_crt compound_statement
+    6 declaration_specifier_crt: declaration_specifier_crt • declaration_specifier
+
+    OpnP          shift, and go to state 6
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_typedef   shift, and go to state 13
+    Key_static    shift, and go to state 14
+    Key_union     shift, and go to state 15
+    Key_auto      shift, and go to state 16
+    Key_register  shift, and go to state 17
+    Key_extern    shift, and go to state 18
+    Key_volatile  shift, and go to state 19
+    identifier    shift, and go to state 20
+
+    declaration_specifier      go to state 21
+    storage_class_specifier    go to state 22
+    type_specifier             go to state 23
+    struct_or_union_specifier  go to state 24
+    struct_or_union            go to state 25
+    type_qualifier             go to state 26
+    direct_declarator          go to state 27
+
+
+State 6
+
+   44 direct_declarator: OpnP • direct_declarator ClsP
+
+    OpnP        shift, and go to state 6
+    identifier  shift, and go to state 20
+
+    direct_declarator  go to state 28
+
+
+State 7
+
+   41 type_qualifier: Key_const •
+
+    $default  reduce using rule 41 (type_qualifier)
+
+
+State 8
+
+   25 struct_or_union: Key_struct •
+
+    $default  reduce using rule 25 (struct_or_union)
+
+
+State 9
+
+   20 type_specifier: Key_double •
+
+    $default  reduce using rule 20 (type_specifier)
+
+
+State 10
+
+   19 type_specifier: Key_int •
+
+    $default  reduce using rule 19 (type_specifier)
+
+
+State 11
+
+   18 type_specifier: Key_char •
+
+    $default  reduce using rule 18 (type_specifier)
+
+
+State 12
+
+   17 type_specifier: Key_void •
+
+    $default  reduce using rule 17 (type_specifier)
+
+
+State 13
+
+   16 storage_class_specifier: Key_typedef •
+
+    $default  reduce using rule 16 (storage_class_specifier)
+
+
+State 14
+
+   14 storage_class_specifier: Key_static •
+
+    $default  reduce using rule 14 (storage_class_specifier)
+
+
+State 15
+
+   26 struct_or_union: Key_union •
+
+    $default  reduce using rule 26 (struct_or_union)
+
+
+State 16
+
+   12 storage_class_specifier: Key_auto •
+
+    $default  reduce using rule 12 (storage_class_specifier)
+
+
+State 17
+
+   13 storage_class_specifier: Key_register •
+
+    $default  reduce using rule 13 (storage_class_specifier)
+
+
+State 18
+
+   15 storage_class_specifier: Key_extern •
+
+    $default  reduce using rule 15 (storage_class_specifier)
+
+
+State 19
+
+   42 type_qualifier: Key_volatile •
+
+    $default  reduce using rule 42 (type_qualifier)
+
+
+State 20
+
+   43 direct_declarator: identifier •
+
+    $default  reduce using rule 43 (direct_declarator)
+
+
+State 21
+
+    6 declaration_specifier_crt: declaration_specifier_crt declaration_specifier •
+
+    $default  reduce using rule 6 (declaration_specifier_crt)
+
+
+State 22
+
+    9 declaration_specifier: storage_class_specifier •
+
+    $default  reduce using rule 9 (declaration_specifier)
+
+
+State 23
+
+   10 declaration_specifier: type_specifier •
+
+    $default  reduce using rule 10 (declaration_specifier)
+
+
+State 24
+
+   21 type_specifier: struct_or_union_specifier •
+
+    $default  reduce using rule 21 (type_specifier)
+
+
+State 25
+
+   22 struct_or_union_specifier: struct_or_union • identifier Open_Br struct_declaration_atlist Close_Br
+   23                          | struct_or_union • Open_Br struct_declaration_atlist Close_Br
+   24                          | struct_or_union • identifier
+
+    Open_Br     shift, and go to state 29
+    identifier  shift, and go to state 30
+
+
+State 26
+
+   11 declaration_specifier: type_qualifier •
+
+    $default  reduce using rule 11 (declaration_specifier)
+
+
+State 27
+
+    4 func: declaration_specifier_crt direct_declarator • declaration_crt compound_statement
+   45 direct_declarator: direct_declarator • Open_sqBr constant_expression_optional Close_sqBr
+   46                  | direct_declarator • OpnP parameter_type_list ClsP
+   47                  | direct_declarator • OpnP identifier_crt ClsP
+
+    Open_sqBr  shift, and go to state 31
+    OpnP       shift, and go to state 32
+
+    $default  reduce using rule 119 (declaration_crt)
+
+    declaration_crt  go to state 33
+
+
+State 28
+
+   44 direct_declarator: OpnP direct_declarator • ClsP
+   45                  | direct_declarator • Open_sqBr constant_expression_optional Close_sqBr
+   46                  | direct_declarator • OpnP parameter_type_list ClsP
+   47                  | direct_declarator • OpnP identifier_crt ClsP
+
+    Open_sqBr  shift, and go to state 31
+    ClsP       shift, and go to state 34
+    OpnP       shift, and go to state 32
+
+
+State 29
+
+   23 struct_or_union_specifier: struct_or_union Open_Br • struct_declaration_atlist Close_Br
+
+    $default  reduce using rule 32 (specifier_qualifier_crt)
+
+    struct_declaration_atlist  go to state 35
+    struct_declaration         go to state 36
+    specifier_qualifier_crt    go to state 37
+
+
+State 30
+
+   22 struct_or_union_specifier: struct_or_union identifier • Open_Br struct_declaration_atlist Close_Br
+   24                          | struct_or_union identifier •
+
+    Open_Br  shift, and go to state 38
+
+    $default  reduce using rule 24 (struct_or_union_specifier)
+
+
+State 31
+
+   45 direct_declarator: direct_declarator Open_sqBr • constant_expression_optional Close_sqBr
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    $default  reduce using rule 48 (constant_expression_optional)
+
+    constant_expression_optional  go to state 51
+    constant_expression           go to state 52
+    logical_or_expression         go to state 53
+    logical_and_expression        go to state 54
+    inclusive_or_expression       go to state 55
+    exclusive_or_expression       go to state 56
+    and_expression                go to state 57
+    equality_expression           go to state 58
+    relational_expression         go to state 59
+    additive_expression           go to state 60
+    multiplicative_expression     go to state 61
+    cast_expression               go to state 62
+    unary_expression              go to state 63
+    postfix_expression            go to state 64
+    primary_expression            go to state 65
+    constant                      go to state 66
+    unary_operator                go to state 67
+
+
+State 32
+
+   46 direct_declarator: direct_declarator OpnP • parameter_type_list ClsP
+   47                  | direct_declarator OpnP • identifier_crt ClsP
+
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_typedef   shift, and go to state 13
+    Key_static    shift, and go to state 14
+    Key_union     shift, and go to state 15
+    Key_auto      shift, and go to state 16
+    Key_register  shift, and go to state 17
+    Key_extern    shift, and go to state 18
+    Key_volatile  shift, and go to state 19
+
+    $default  reduce using rule 147 (identifier_crt)
+
+    declaration_specifier_atlist  go to state 68
+    declaration_specifier         go to state 69
+    storage_class_specifier       go to state 22
+    type_specifier                go to state 23
+    struct_or_union_specifier     go to state 24
+    struct_or_union               go to state 25
+    type_qualifier                go to state 26
+    parameter_type_list           go to state 70
+    parameter_list                go to state 71
+    parameter_declaration         go to state 72
+    identifier_crt                go to state 73
+
+
+State 33
+
+    4 func: declaration_specifier_crt direct_declarator declaration_crt • compound_statement
+  120 declaration_crt: declaration_crt • declaration
+
+    Open_Br       shift, and go to state 74
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_typedef   shift, and go to state 13
+    Key_static    shift, and go to state 14
+    Key_union     shift, and go to state 15
+    Key_auto      shift, and go to state 16
+    Key_register  shift, and go to state 17
+    Key_extern    shift, and go to state 18
+    Key_volatile  shift, and go to state 19
+
+    declaration_specifier_atlist  go to state 75
+    declaration_specifier         go to state 69
+    storage_class_specifier       go to state 22
+    type_specifier                go to state 23
+    struct_or_union_specifier     go to state 24
+    struct_or_union               go to state 25
+    type_qualifier                go to state 26
+    declaration                   go to state 76
+    compound_statement            go to state 77
+
+
+State 34
+
+   44 direct_declarator: OpnP direct_declarator ClsP •
+
+    $default  reduce using rule 44 (direct_declarator)
+
+
+State 35
+
+   23 struct_or_union_specifier: struct_or_union Open_Br struct_declaration_atlist • Close_Br
+   28 struct_declaration_atlist: struct_declaration_atlist • struct_declaration
+
+    Close_Br  shift, and go to state 78
+
+    $default  reduce using rule 32 (specifier_qualifier_crt)
+
+    struct_declaration       go to state 79
+    specifier_qualifier_crt  go to state 37
+
+
+State 36
+
+   27 struct_declaration_atlist: struct_declaration •
+
+    $default  reduce using rule 27 (struct_declaration_atlist)
+
+
+State 37
+
+   29 struct_declaration: specifier_qualifier_crt • struct_declarator_list
+   33 specifier_qualifier_crt: specifier_qualifier_crt • specifier_qualifier
+
+    Key_colon     shift, and go to state 80
+    OpnP          shift, and go to state 6
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_union     shift, and go to state 15
+    Key_volatile  shift, and go to state 19
+    identifier    shift, and go to state 20
+
+    type_specifier             go to state 81
+    struct_or_union_specifier  go to state 24
+    struct_or_union            go to state 25
+    specifier_qualifier        go to state 82
+    struct_declarator_list     go to state 83
+    struct_declarator          go to state 84
+    type_qualifier             go to state 85
+    direct_declarator          go to state 86
+
+
+State 38
+
+   22 struct_or_union_specifier: struct_or_union identifier Open_Br • struct_declaration_atlist Close_Br
+
+    $default  reduce using rule 32 (specifier_qualifier_crt)
+
+    struct_declaration_atlist  go to state 87
+    struct_declaration         go to state 36
+    specifier_qualifier_crt    go to state 37
+
+
+State 39
+
+  103 unary_operator: Up_not •
+
+    $default  reduce using rule 103 (unary_operator)
+
+
+State 40
+
+  102 unary_operator: Up_LogicalNot •
+
+    $default  reduce using rule 102 (unary_operator)
+
+
+State 41
+
+   98 unary_operator: Up_and •
+
+    $default  reduce using rule 98 (unary_operator)
+
+
+State 42
+
+  101 unary_operator: Op_Minus •
+
+    $default  reduce using rule 101 (unary_operator)
+
+
+State 43
+
+   99 unary_operator: Op_Mult •
+
+    $default  reduce using rule 99 (unary_operator)
+
+
+State 44
+
+  100 unary_operator: Op_Plus •
+
+    $default  reduce using rule 100 (unary_operator)
+
+
+State 45
+
+   76 cast_expression: OpnP • type_name ClsP cast_expression
+   86 primary_expression: OpnP • expression ClsP
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    Key_const      shift, and go to state 7
+    Key_struct     shift, and go to state 8
+    Key_double     shift, and go to state 9
+    Key_int        shift, and go to state 10
+    Key_char       shift, and go to state 11
+    Key_void       shift, and go to state 12
+    Key_union      shift, and go to state 15
+    Key_volatile   shift, and go to state 19
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    type_specifier              go to state 81
+    struct_or_union_specifier   go to state 24
+    struct_or_union             go to state 25
+    specifier_qualifier_atlist  go to state 88
+    specifier_qualifier         go to state 89
+    type_qualifier              go to state 85
+    logical_or_expression       go to state 90
+    logical_and_expression      go to state 54
+    inclusive_or_expression     go to state 55
+    exclusive_or_expression     go to state 56
+    and_expression              go to state 57
+    equality_expression         go to state 58
+    relational_expression       go to state 59
+    additive_expression         go to state 60
+    multiplicative_expression   go to state 61
+    cast_expression             go to state 62
+    unary_expression            go to state 91
+    postfix_expression          go to state 64
+    primary_expression          go to state 65
+    constant                    go to state 66
+    expression                  go to state 92
+    assignment_expression       go to state 93
+    unary_operator              go to state 67
+    type_name                   go to state 94
+
+
+State 46
+
+   89 constant: char_chr •
+
+    $default  reduce using rule 89 (constant)
+
+
+State 47
+
+   88 constant: double_num •
+
+    $default  reduce using rule 88 (constant)
+
+
+State 48
+
+   87 constant: integer_num •
+
+    $default  reduce using rule 87 (constant)
+
+
+State 49
+
+   83 primary_expression: identifier •
+
+    $default  reduce using rule 83 (primary_expression)
+
+
+State 50
+
+   85 primary_expression: string_str •
+
+    $default  reduce using rule 85 (primary_expression)
+
+
+State 51
+
+   45 direct_declarator: direct_declarator Open_sqBr constant_expression_optional • Close_sqBr
+
+    Close_sqBr  shift, and go to state 95
+
+
+State 52
+
+   49 constant_expression_optional: constant_expression •
+
+    $default  reduce using rule 49 (constant_expression_optional)
+
+
+State 53
+
+   50 constant_expression: logical_or_expression •
+   52 logical_or_expression: logical_or_expression • Op_Or logical_and_expression
+
+    Op_Or  shift, and go to state 96
+
+    $default  reduce using rule 50 (constant_expression)
+
+
+State 54
+
+   51 logical_or_expression: logical_and_expression •
+   54 logical_and_expression: logical_and_expression • Op_and inclusive_or_expression
+
+    Op_and  shift, and go to state 97
+
+    $default  reduce using rule 51 (logical_or_expression)
+
+
+State 55
+
+   53 logical_and_expression: inclusive_or_expression •
+   56 inclusive_or_expression: inclusive_or_expression • Up_or exclusive_or_expression
+
+    Up_or  shift, and go to state 98
+
+    $default  reduce using rule 53 (logical_and_expression)
+
+
+State 56
+
+   55 inclusive_or_expression: exclusive_or_expression •
+   58 exclusive_or_expression: exclusive_or_expression • Up_xor and_expression
+
+    Up_xor  shift, and go to state 99
+
+    $default  reduce using rule 55 (inclusive_or_expression)
+
+
+State 57
+
+   57 exclusive_or_expression: and_expression •
+   60 and_expression: and_expression • Up_and equality_expression
+
+    Up_and  shift, and go to state 100
+
+    Up_and    [reduce using rule 57 (exclusive_or_expression)]
+    $default  reduce using rule 57 (exclusive_or_expression)
+
+
+State 58
+
+   59 and_expression: equality_expression •
+   62 equality_expression: equality_expression • Op_Equal relational_expression
+   63                    | equality_expression • Op_NotEqual relational_expression
+
+    Op_Equal     shift, and go to state 101
+    Op_NotEqual  shift, and go to state 102
+
+    $default  reduce using rule 59 (and_expression)
+
+
+State 59
+
+   61 equality_expression: relational_expression •
+   65 relational_expression: relational_expression • Op_GreaterThen additive_expression
+   66                      | relational_expression • Op_LessThen additive_expression
+   67                      | relational_expression • Op_GreaterThenOrEqual additive_expression
+   68                      | relational_expression • Op_LessThenOrEqual additive_expression
+
+    Op_LessThenOrEqual     shift, and go to state 103
+    Op_GreaterThen         shift, and go to state 104
+    Op_LessThen            shift, and go to state 105
+    Op_GreaterThenOrEqual  shift, and go to state 106
+
+    $default  reduce using rule 61 (equality_expression)
+
+
+State 60
+
+   64 relational_expression: additive_expression •
+   70 additive_expression: additive_expression • Op_Plus multiplicative_expression
+   71                    | additive_expression • Op_Minus multiplicative_expression
+
+    Op_Minus  shift, and go to state 107
+    Op_Plus   shift, and go to state 108
+
+    Op_Minus  [reduce using rule 64 (relational_expression)]
+    Op_Plus   [reduce using rule 64 (relational_expression)]
+    $default  reduce using rule 64 (relational_expression)
+
+
+State 61
+
+   69 additive_expression: multiplicative_expression •
+   73 multiplicative_expression: multiplicative_expression • Op_Mult cast_expression
+   74                          | multiplicative_expression • Op_Div cast_expression
+
+    Op_Mult  shift, and go to state 109
+    Op_Div   shift, and go to state 110
+
+    Op_Mult   [reduce using rule 69 (additive_expression)]
+    $default  reduce using rule 69 (additive_expression)
+
+
+State 62
+
+   72 multiplicative_expression: cast_expression •
+
+    $default  reduce using rule 72 (multiplicative_expression)
+
+
+State 63
+
+   75 cast_expression: unary_expression •
+
+    $default  reduce using rule 75 (cast_expression)
+
+
+State 64
+
+   77 unary_expression: postfix_expression •
+   80 postfix_expression: postfix_expression • Open_sqBr expression Close_sqBr
+   81                   | postfix_expression • OpnP assignment_expression_crt ClsP
+   82                   | postfix_expression • Key_dot identifier
+
+    Key_dot    shift, and go to state 111
+    Open_sqBr  shift, and go to state 112
+    OpnP       shift, and go to state 113
+
+    OpnP      [reduce using rule 77 (unary_expression)]
+    $default  reduce using rule 77 (unary_expression)
+
+
+State 65
+
+   79 postfix_expression: primary_expression •
+
+    $default  reduce using rule 79 (postfix_expression)
+
+
+State 66
+
+   84 primary_expression: constant •
+
+    $default  reduce using rule 84 (primary_expression)
+
+
+State 67
+
+   78 unary_expression: unary_operator • cast_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    cast_expression     go to state 114
+    unary_expression    go to state 63
+    postfix_expression  go to state 64
+    primary_expression  go to state 65
+    constant            go to state 66
+    unary_operator      go to state 67
+
+
+State 68
+
+    8 declaration_specifier_atlist: declaration_specifier_atlist • declaration_specifier
+  111 parameter_declaration: declaration_specifier_atlist • direct_declarator
+  112                      | declaration_specifier_atlist • direct_abstract_declarator
+  113                      | declaration_specifier_atlist •
+
+    OpnP          shift, and go to state 115
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_typedef   shift, and go to state 13
+    Key_static    shift, and go to state 14
+    Key_union     shift, and go to state 15
+    Key_auto      shift, and go to state 16
+    Key_register  shift, and go to state 17
+    Key_extern    shift, and go to state 18
+    Key_volatile  shift, and go to state 19
+    identifier    shift, and go to state 20
+
+    Open_sqBr     reduce using rule 114 (direct_abstract_declarator_optional)
+    OpnP          [reduce using rule 114 (direct_abstract_declarator_optional)]
+    Key_const     [reduce using rule 113 (parameter_declaration)]
+    Key_struct    [reduce using rule 113 (parameter_declaration)]
+    Key_double    [reduce using rule 113 (parameter_declaration)]
+    Key_int       [reduce using rule 113 (parameter_declaration)]
+    Key_char      [reduce using rule 113 (parameter_declaration)]
+    Key_void      [reduce using rule 113 (parameter_declaration)]
+    Key_typedef   [reduce using rule 113 (parameter_declaration)]
+    Key_static    [reduce using rule 113 (parameter_declaration)]
+    Key_union     [reduce using rule 113 (parameter_declaration)]
+    Key_auto      [reduce using rule 113 (parameter_declaration)]
+    Key_register  [reduce using rule 113 (parameter_declaration)]
+    Key_extern    [reduce using rule 113 (parameter_declaration)]
+    Key_volatile  [reduce using rule 113 (parameter_declaration)]
+    $default      reduce using rule 113 (parameter_declaration)
+
+    declaration_specifier                go to state 116
+    storage_class_specifier              go to state 22
+    type_specifier                       go to state 23
+    struct_or_union_specifier            go to state 24
+    struct_or_union                      go to state 25
+    type_qualifier                       go to state 26
+    direct_declarator                    go to state 117
+    direct_abstract_declarator_optional  go to state 118
+    direct_abstract_declarator           go to state 119
+
+
+State 69
+
+    7 declaration_specifier_atlist: declaration_specifier •
+
+    $default  reduce using rule 7 (declaration_specifier_atlist)
+
+
+State 70
+
+   46 direct_declarator: direct_declarator OpnP parameter_type_list • ClsP
+  108 parameter_type_list: parameter_type_list • parameter_list
+
+    ClsP          shift, and go to state 120
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_typedef   shift, and go to state 13
+    Key_static    shift, and go to state 14
+    Key_union     shift, and go to state 15
+    Key_auto      shift, and go to state 16
+    Key_register  shift, and go to state 17
+    Key_extern    shift, and go to state 18
+    Key_volatile  shift, and go to state 19
+
+    declaration_specifier_atlist  go to state 68
+    declaration_specifier         go to state 69
+    storage_class_specifier       go to state 22
+    type_specifier                go to state 23
+    struct_or_union_specifier     go to state 24
+    struct_or_union               go to state 25
+    type_qualifier                go to state 26
+    parameter_list                go to state 121
+    parameter_declaration         go to state 72
+
+
+State 71
+
+  107 parameter_type_list: parameter_list •
+  110 parameter_list: parameter_list • Key_comma parameter_declaration
+
+    Key_comma  shift, and go to state 122
+
+    $default  reduce using rule 107 (parameter_type_list)
+
+
+State 72
+
+  109 parameter_list: parameter_declaration •
+
+    $default  reduce using rule 109 (parameter_list)
+
+
+State 73
+
+   47 direct_declarator: direct_declarator OpnP identifier_crt • ClsP
+  148 identifier_crt: identifier_crt • identifier
+
+    ClsP        shift, and go to state 123
+    identifier  shift, and go to state 124
+
+
+State 74
+
+  131 compound_statement: Open_Br • declaration_crt statement_crt Close_Br
+
+    $default  reduce using rule 119 (declaration_crt)
+
+    declaration_crt  go to state 125
+
+
+State 75
+
+    8 declaration_specifier_atlist: declaration_specifier_atlist • declaration_specifier
+  121 declaration: declaration_specifier_atlist • init_declarator_crt Key_SEMICOL
+
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_typedef   shift, and go to state 13
+    Key_static    shift, and go to state 14
+    Key_union     shift, and go to state 15
+    Key_auto      shift, and go to state 16
+    Key_register  shift, and go to state 17
+    Key_extern    shift, and go to state 18
+    Key_volatile  shift, and go to state 19
+
+    $default  reduce using rule 122 (init_declarator_crt)
+
+    declaration_specifier      go to state 116
+    storage_class_specifier    go to state 22
+    type_specifier             go to state 23
+    struct_or_union_specifier  go to state 24
+    struct_or_union            go to state 25
+    type_qualifier             go to state 26
+    init_declarator_crt        go to state 126
+
+
+State 76
+
+  120 declaration_crt: declaration_crt declaration •
+
+    $default  reduce using rule 120 (declaration_crt)
+
+
+State 77
+
+    4 func: declaration_specifier_crt direct_declarator declaration_crt compound_statement •
+
+    $default  reduce using rule 4 (func)
+
+
+State 78
+
+   23 struct_or_union_specifier: struct_or_union Open_Br struct_declaration_atlist Close_Br •
+
+    $default  reduce using rule 23 (struct_or_union_specifier)
+
+
+State 79
+
+   28 struct_declaration_atlist: struct_declaration_atlist struct_declaration •
+
+    $default  reduce using rule 28 (struct_declaration_atlist)
+
+
+State 80
+
+   40 struct_declarator: Key_colon • constant_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    constant_expression        go to state 127
+    logical_or_expression      go to state 53
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 81
+
+   34 specifier_qualifier: type_specifier •
+
+    $default  reduce using rule 34 (specifier_qualifier)
+
+
+State 82
+
+   33 specifier_qualifier_crt: specifier_qualifier_crt specifier_qualifier •
+
+    $default  reduce using rule 33 (specifier_qualifier_crt)
+
+
+State 83
+
+   29 struct_declaration: specifier_qualifier_crt struct_declarator_list •
+   37 struct_declarator_list: struct_declarator_list • Key_comma struct_declarator
+
+    Key_comma  shift, and go to state 128
+
+    $default  reduce using rule 29 (struct_declaration)
+
+
+State 84
+
+   36 struct_declarator_list: struct_declarator •
+
+    $default  reduce using rule 36 (struct_declarator_list)
+
+
+State 85
+
+   35 specifier_qualifier: type_qualifier •
+
+    $default  reduce using rule 35 (specifier_qualifier)
+
+
+State 86
+
+   38 struct_declarator: direct_declarator •
+   39                  | direct_declarator • Key_colon constant_expression
+   45 direct_declarator: direct_declarator • Open_sqBr constant_expression_optional Close_sqBr
+   46                  | direct_declarator • OpnP parameter_type_list ClsP
+   47                  | direct_declarator • OpnP identifier_crt ClsP
+
+    Key_colon  shift, and go to state 129
+    Open_sqBr  shift, and go to state 31
+    OpnP       shift, and go to state 32
+
+    Key_colon  [reduce using rule 38 (struct_declarator)]
+    OpnP       [reduce using rule 38 (struct_declarator)]
+    $default   reduce using rule 38 (struct_declarator)
+
+
+State 87
+
+   22 struct_or_union_specifier: struct_or_union identifier Open_Br struct_declaration_atlist • Close_Br
+   28 struct_declaration_atlist: struct_declaration_atlist • struct_declaration
+
+    Close_Br  shift, and go to state 130
+
+    $default  reduce using rule 32 (specifier_qualifier_crt)
+
+    struct_declaration       go to state 79
+    specifier_qualifier_crt  go to state 37
+
+
+State 88
+
+   31 specifier_qualifier_atlist: specifier_qualifier_atlist • specifier_qualifier
+  104 type_name: specifier_qualifier_atlist • direct_abstract_declarator_optional
+
+    OpnP          shift, and go to state 131
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_union     shift, and go to state 15
+    Key_volatile  shift, and go to state 19
+
+    OpnP      [reduce using rule 114 (direct_abstract_declarator_optional)]
+    $default  reduce using rule 114 (direct_abstract_declarator_optional)
+
+    type_specifier                       go to state 81
+    struct_or_union_specifier            go to state 24
+    struct_or_union                      go to state 25
+    specifier_qualifier                  go to state 132
+    type_qualifier                       go to state 85
+    direct_abstract_declarator_optional  go to state 133
+    direct_abstract_declarator           go to state 134
+
+
+State 89
+
+   30 specifier_qualifier_atlist: specifier_qualifier •
+
+    $default  reduce using rule 30 (specifier_qualifier_atlist)
+
+
+State 90
+
+   52 logical_or_expression: logical_or_expression • Op_Or logical_and_expression
+   96 assignment_expression: logical_or_expression •
+
+    Op_Or  shift, and go to state 96
+
+    $default  reduce using rule 96 (assignment_expression)
+
+
+State 91
+
+   75 cast_expression: unary_expression •
+   97 assignment_expression: unary_expression • Op_Assign assignment_expression
+
+    Op_Assign  shift, and go to state 135
+
+    $default  reduce using rule 75 (cast_expression)
+
+
+State 92
+
+   86 primary_expression: OpnP expression • ClsP
+   93 expression: expression • Key_comma assignment_expression
+
+    Key_comma  shift, and go to state 136
+    ClsP       shift, and go to state 137
+
+
+State 93
+
+   92 expression: assignment_expression •
+
+    $default  reduce using rule 92 (expression)
+
+
+State 94
+
+   76 cast_expression: OpnP type_name • ClsP cast_expression
+
+    ClsP  shift, and go to state 138
+
+
+State 95
+
+   45 direct_declarator: direct_declarator Open_sqBr constant_expression_optional Close_sqBr •
+
+    $default  reduce using rule 45 (direct_declarator)
+
+
+State 96
+
+   52 logical_or_expression: logical_or_expression Op_Or • logical_and_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    logical_and_expression     go to state 139
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 97
+
+   54 logical_and_expression: logical_and_expression Op_and • inclusive_or_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    inclusive_or_expression    go to state 140
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 98
+
+   56 inclusive_or_expression: inclusive_or_expression Up_or • exclusive_or_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    exclusive_or_expression    go to state 141
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 99
+
+   58 exclusive_or_expression: exclusive_or_expression Up_xor • and_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    and_expression             go to state 142
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 100
+
+   60 and_expression: and_expression Up_and • equality_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    equality_expression        go to state 143
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 101
+
+   62 equality_expression: equality_expression Op_Equal • relational_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    relational_expression      go to state 144
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 102
+
+   63 equality_expression: equality_expression Op_NotEqual • relational_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    relational_expression      go to state 145
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 103
+
+   68 relational_expression: relational_expression Op_LessThenOrEqual • additive_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    additive_expression        go to state 146
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 104
+
+   65 relational_expression: relational_expression Op_GreaterThen • additive_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    additive_expression        go to state 147
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 105
+
+   66 relational_expression: relational_expression Op_LessThen • additive_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    additive_expression        go to state 148
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 106
+
+   67 relational_expression: relational_expression Op_GreaterThenOrEqual • additive_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    additive_expression        go to state 149
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 107
+
+   71 additive_expression: additive_expression Op_Minus • multiplicative_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    multiplicative_expression  go to state 150
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 108
+
+   70 additive_expression: additive_expression Op_Plus • multiplicative_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    multiplicative_expression  go to state 151
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 109
+
+   73 multiplicative_expression: multiplicative_expression Op_Mult • cast_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    cast_expression     go to state 152
+    unary_expression    go to state 63
+    postfix_expression  go to state 64
+    primary_expression  go to state 65
+    constant            go to state 66
+    unary_operator      go to state 67
+
+
+State 110
+
+   74 multiplicative_expression: multiplicative_expression Op_Div • cast_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    cast_expression     go to state 153
+    unary_expression    go to state 63
+    postfix_expression  go to state 64
+    primary_expression  go to state 65
+    constant            go to state 66
+    unary_operator      go to state 67
+
+
+State 111
+
+   82 postfix_expression: postfix_expression Key_dot • identifier
+
+    identifier  shift, and go to state 154
+
+
+State 112
+
+   80 postfix_expression: postfix_expression Open_sqBr • expression Close_sqBr
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    expression                 go to state 155
+    assignment_expression      go to state 93
+    unary_operator             go to state 67
+
+
+State 113
+
+   81 postfix_expression: postfix_expression OpnP • assignment_expression_crt ClsP
+
+    $default  reduce using rule 94 (assignment_expression_crt)
+
+    assignment_expression_crt  go to state 156
+
+
+State 114
+
+   78 unary_expression: unary_operator cast_expression •
+
+    $default  reduce using rule 78 (unary_expression)
+
+
+State 115
+
+   44 direct_declarator: OpnP • direct_declarator ClsP
+  116 direct_abstract_declarator: OpnP • direct_abstract_declarator ClsP
+
+    OpnP        shift, and go to state 115
+    identifier  shift, and go to state 20
+
+    OpnP      [reduce using rule 114 (direct_abstract_declarator_optional)]
+    $default  reduce using rule 114 (direct_abstract_declarator_optional)
+
+    direct_declarator                    go to state 28
+    direct_abstract_declarator_optional  go to state 118
+    direct_abstract_declarator           go to state 157
+
+
+State 116
+
+    8 declaration_specifier_atlist: declaration_specifier_atlist declaration_specifier •
+
+    $default  reduce using rule 8 (declaration_specifier_atlist)
+
+
+State 117
+
+   45 direct_declarator: direct_declarator • Open_sqBr constant_expression_optional Close_sqBr
+   46                  | direct_declarator • OpnP parameter_type_list ClsP
+   47                  | direct_declarator • OpnP identifier_crt ClsP
+  111 parameter_declaration: declaration_specifier_atlist direct_declarator •
+
+    Open_sqBr  shift, and go to state 31
+    OpnP       shift, and go to state 32
+
+    $default  reduce using rule 111 (parameter_declaration)
+
+
+State 118
+
+  117 direct_abstract_declarator: direct_abstract_declarator_optional • Open_sqBr constant_expression_optional Close_sqBr
+  118                           | direct_abstract_declarator_optional • OpnP parameter_type_list_optional ClsP
+
+    Open_sqBr  shift, and go to state 158
+    OpnP       shift, and go to state 159
+
+
+State 119
+
+  112 parameter_declaration: declaration_specifier_atlist direct_abstract_declarator •
+  115 direct_abstract_declarator_optional: direct_abstract_declarator •
+
+    Open_sqBr  reduce using rule 115 (direct_abstract_declarator_optional)
+    OpnP       reduce using rule 115 (direct_abstract_declarator_optional)
+    $default   reduce using rule 112 (parameter_declaration)
+
+
+State 120
+
+   46 direct_declarator: direct_declarator OpnP parameter_type_list ClsP •
+
+    $default  reduce using rule 46 (direct_declarator)
+
+
+State 121
+
+  108 parameter_type_list: parameter_type_list parameter_list •
+  110 parameter_list: parameter_list • Key_comma parameter_declaration
+
+    Key_comma  shift, and go to state 122
+
+    $default  reduce using rule 108 (parameter_type_list)
+
+
+State 122
+
+  110 parameter_list: parameter_list Key_comma • parameter_declaration
+
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_typedef   shift, and go to state 13
+    Key_static    shift, and go to state 14
+    Key_union     shift, and go to state 15
+    Key_auto      shift, and go to state 16
+    Key_register  shift, and go to state 17
+    Key_extern    shift, and go to state 18
+    Key_volatile  shift, and go to state 19
+
+    declaration_specifier_atlist  go to state 68
+    declaration_specifier         go to state 69
+    storage_class_specifier       go to state 22
+    type_specifier                go to state 23
+    struct_or_union_specifier     go to state 24
+    struct_or_union               go to state 25
+    type_qualifier                go to state 26
+    parameter_declaration         go to state 160
+
+
+State 123
+
+   47 direct_declarator: direct_declarator OpnP identifier_crt ClsP •
+
+    $default  reduce using rule 47 (direct_declarator)
+
+
+State 124
+
+  148 identifier_crt: identifier_crt identifier •
+
+    $default  reduce using rule 148 (identifier_crt)
+
+
+State 125
+
+  120 declaration_crt: declaration_crt • declaration
+  131 compound_statement: Open_Br declaration_crt • statement_crt Close_Br
+
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_typedef   shift, and go to state 13
+    Key_static    shift, and go to state 14
+    Key_union     shift, and go to state 15
+    Key_auto      shift, and go to state 16
+    Key_register  shift, and go to state 17
+    Key_extern    shift, and go to state 18
+    Key_volatile  shift, and go to state 19
+
+    $default  reduce using rule 132 (statement_crt)
+
+    declaration_specifier_atlist  go to state 75
+    declaration_specifier         go to state 69
+    storage_class_specifier       go to state 22
+    type_specifier                go to state 23
+    struct_or_union_specifier     go to state 24
+    struct_or_union               go to state 25
+    type_qualifier                go to state 26
+    declaration                   go to state 76
+    statement_crt                 go to state 161
+
+
+State 126
+
+  121 declaration: declaration_specifier_atlist init_declarator_crt • Key_SEMICOL
+  123 init_declarator_crt: init_declarator_crt • init_declarator
+
+    Key_SEMICOL  shift, and go to state 162
+    OpnP         shift, and go to state 6
+    identifier   shift, and go to state 20
+
+    direct_declarator  go to state 163
+    init_declarator    go to state 164
+
+
+State 127
+
+   40 struct_declarator: Key_colon constant_expression •
+
+    $default  reduce using rule 40 (struct_declarator)
+
+
+State 128
+
+   37 struct_declarator_list: struct_declarator_list Key_comma • struct_declarator
+
+    Key_colon   shift, and go to state 80
+    OpnP        shift, and go to state 6
+    identifier  shift, and go to state 20
+
+    struct_declarator  go to state 165
+    direct_declarator  go to state 86
+
+
+State 129
+
+   39 struct_declarator: direct_declarator Key_colon • constant_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    constant_expression        go to state 166
+    logical_or_expression      go to state 53
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 63
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    unary_operator             go to state 67
+
+
+State 130
+
+   22 struct_or_union_specifier: struct_or_union identifier Open_Br struct_declaration_atlist Close_Br •
+
+    $default  reduce using rule 22 (struct_or_union_specifier)
+
+
+State 131
+
+  116 direct_abstract_declarator: OpnP • direct_abstract_declarator ClsP
+
+    OpnP  shift, and go to state 131
+
+    OpnP      [reduce using rule 114 (direct_abstract_declarator_optional)]
+    $default  reduce using rule 114 (direct_abstract_declarator_optional)
+
+    direct_abstract_declarator_optional  go to state 118
+    direct_abstract_declarator           go to state 157
+
+
+State 132
+
+   31 specifier_qualifier_atlist: specifier_qualifier_atlist specifier_qualifier •
+
+    $default  reduce using rule 31 (specifier_qualifier_atlist)
+
+
+State 133
+
+  104 type_name: specifier_qualifier_atlist direct_abstract_declarator_optional •
+  117 direct_abstract_declarator: direct_abstract_declarator_optional • Open_sqBr constant_expression_optional Close_sqBr
+  118                           | direct_abstract_declarator_optional • OpnP parameter_type_list_optional ClsP
+
+    Open_sqBr  shift, and go to state 158
+    OpnP       shift, and go to state 159
+
+    $default  reduce using rule 104 (type_name)
+
+
+State 134
+
+  115 direct_abstract_declarator_optional: direct_abstract_declarator •
+
+    $default  reduce using rule 115 (direct_abstract_declarator_optional)
+
+
+State 135
+
+   97 assignment_expression: unary_expression Op_Assign • assignment_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    assignment_expression      go to state 167
+    unary_operator             go to state 67
+
+
+State 136
+
+   93 expression: expression Key_comma • assignment_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    assignment_expression      go to state 168
+    unary_operator             go to state 67
+
+
+State 137
+
+   86 primary_expression: OpnP expression ClsP •
+
+    $default  reduce using rule 86 (primary_expression)
+
+
+State 138
+
+   76 cast_expression: OpnP type_name ClsP • cast_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    cast_expression     go to state 169
+    unary_expression    go to state 63
+    postfix_expression  go to state 64
+    primary_expression  go to state 65
+    constant            go to state 66
+    unary_operator      go to state 67
+
+
+State 139
+
+   52 logical_or_expression: logical_or_expression Op_Or logical_and_expression •
+   54 logical_and_expression: logical_and_expression • Op_and inclusive_or_expression
+
+    Op_and  shift, and go to state 97
+
+    $default  reduce using rule 52 (logical_or_expression)
+
+
+State 140
+
+   54 logical_and_expression: logical_and_expression Op_and inclusive_or_expression •
+   56 inclusive_or_expression: inclusive_or_expression • Up_or exclusive_or_expression
+
+    Up_or  shift, and go to state 98
+
+    $default  reduce using rule 54 (logical_and_expression)
+
+
+State 141
+
+   56 inclusive_or_expression: inclusive_or_expression Up_or exclusive_or_expression •
+   58 exclusive_or_expression: exclusive_or_expression • Up_xor and_expression
+
+    Up_xor  shift, and go to state 99
+
+    $default  reduce using rule 56 (inclusive_or_expression)
+
+
+State 142
+
+   58 exclusive_or_expression: exclusive_or_expression Up_xor and_expression •
+   60 and_expression: and_expression • Up_and equality_expression
+
+    Up_and  shift, and go to state 100
+
+    Up_and    [reduce using rule 58 (exclusive_or_expression)]
+    $default  reduce using rule 58 (exclusive_or_expression)
+
+
+State 143
+
+   60 and_expression: and_expression Up_and equality_expression •
+   62 equality_expression: equality_expression • Op_Equal relational_expression
+   63                    | equality_expression • Op_NotEqual relational_expression
+
+    Op_Equal     shift, and go to state 101
+    Op_NotEqual  shift, and go to state 102
+
+    $default  reduce using rule 60 (and_expression)
+
+
+State 144
+
+   62 equality_expression: equality_expression Op_Equal relational_expression •
+   65 relational_expression: relational_expression • Op_GreaterThen additive_expression
+   66                      | relational_expression • Op_LessThen additive_expression
+   67                      | relational_expression • Op_GreaterThenOrEqual additive_expression
+   68                      | relational_expression • Op_LessThenOrEqual additive_expression
+
+    Op_LessThenOrEqual     shift, and go to state 103
+    Op_GreaterThen         shift, and go to state 104
+    Op_LessThen            shift, and go to state 105
+    Op_GreaterThenOrEqual  shift, and go to state 106
+
+    $default  reduce using rule 62 (equality_expression)
+
+
+State 145
+
+   63 equality_expression: equality_expression Op_NotEqual relational_expression •
+   65 relational_expression: relational_expression • Op_GreaterThen additive_expression
+   66                      | relational_expression • Op_LessThen additive_expression
+   67                      | relational_expression • Op_GreaterThenOrEqual additive_expression
+   68                      | relational_expression • Op_LessThenOrEqual additive_expression
+
+    Op_LessThenOrEqual     shift, and go to state 103
+    Op_GreaterThen         shift, and go to state 104
+    Op_LessThen            shift, and go to state 105
+    Op_GreaterThenOrEqual  shift, and go to state 106
+
+    $default  reduce using rule 63 (equality_expression)
+
+
+State 146
+
+   68 relational_expression: relational_expression Op_LessThenOrEqual additive_expression •
+   70 additive_expression: additive_expression • Op_Plus multiplicative_expression
+   71                    | additive_expression • Op_Minus multiplicative_expression
+
+    Op_Minus  shift, and go to state 107
+    Op_Plus   shift, and go to state 108
+
+    Op_Minus  [reduce using rule 68 (relational_expression)]
+    Op_Plus   [reduce using rule 68 (relational_expression)]
+    $default  reduce using rule 68 (relational_expression)
+
+
+State 147
+
+   65 relational_expression: relational_expression Op_GreaterThen additive_expression •
+   70 additive_expression: additive_expression • Op_Plus multiplicative_expression
+   71                    | additive_expression • Op_Minus multiplicative_expression
+
+    Op_Minus  shift, and go to state 107
+    Op_Plus   shift, and go to state 108
+
+    Op_Minus  [reduce using rule 65 (relational_expression)]
+    Op_Plus   [reduce using rule 65 (relational_expression)]
+    $default  reduce using rule 65 (relational_expression)
+
+
+State 148
+
+   66 relational_expression: relational_expression Op_LessThen additive_expression •
+   70 additive_expression: additive_expression • Op_Plus multiplicative_expression
+   71                    | additive_expression • Op_Minus multiplicative_expression
+
+    Op_Minus  shift, and go to state 107
+    Op_Plus   shift, and go to state 108
+
+    Op_Minus  [reduce using rule 66 (relational_expression)]
+    Op_Plus   [reduce using rule 66 (relational_expression)]
+    $default  reduce using rule 66 (relational_expression)
+
+
+State 149
+
+   67 relational_expression: relational_expression Op_GreaterThenOrEqual additive_expression •
+   70 additive_expression: additive_expression • Op_Plus multiplicative_expression
+   71                    | additive_expression • Op_Minus multiplicative_expression
+
+    Op_Minus  shift, and go to state 107
+    Op_Plus   shift, and go to state 108
+
+    Op_Minus  [reduce using rule 67 (relational_expression)]
+    Op_Plus   [reduce using rule 67 (relational_expression)]
+    $default  reduce using rule 67 (relational_expression)
+
+
+State 150
+
+   71 additive_expression: additive_expression Op_Minus multiplicative_expression •
+   73 multiplicative_expression: multiplicative_expression • Op_Mult cast_expression
+   74                          | multiplicative_expression • Op_Div cast_expression
+
+    Op_Mult  shift, and go to state 109
+    Op_Div   shift, and go to state 110
+
+    Op_Mult   [reduce using rule 71 (additive_expression)]
+    $default  reduce using rule 71 (additive_expression)
+
+
+State 151
+
+   70 additive_expression: additive_expression Op_Plus multiplicative_expression •
+   73 multiplicative_expression: multiplicative_expression • Op_Mult cast_expression
+   74                          | multiplicative_expression • Op_Div cast_expression
+
+    Op_Mult  shift, and go to state 109
+    Op_Div   shift, and go to state 110
+
+    Op_Mult   [reduce using rule 70 (additive_expression)]
+    $default  reduce using rule 70 (additive_expression)
+
+
+State 152
+
+   73 multiplicative_expression: multiplicative_expression Op_Mult cast_expression •
+
+    $default  reduce using rule 73 (multiplicative_expression)
+
+
+State 153
+
+   74 multiplicative_expression: multiplicative_expression Op_Div cast_expression •
+
+    $default  reduce using rule 74 (multiplicative_expression)
+
+
+State 154
+
+   82 postfix_expression: postfix_expression Key_dot identifier •
+
+    $default  reduce using rule 82 (postfix_expression)
+
+
+State 155
+
+   80 postfix_expression: postfix_expression Open_sqBr expression • Close_sqBr
+   93 expression: expression • Key_comma assignment_expression
+
+    Key_comma   shift, and go to state 136
+    Close_sqBr  shift, and go to state 170
+
+
+State 156
+
+   81 postfix_expression: postfix_expression OpnP assignment_expression_crt • ClsP
+   95 assignment_expression_crt: assignment_expression_crt • assignment_expression
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    ClsP           shift, and go to state 171
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    assignment_expression      go to state 172
+    unary_operator             go to state 67
+
+
+State 157
+
+  115 direct_abstract_declarator_optional: direct_abstract_declarator •
+  116 direct_abstract_declarator: OpnP direct_abstract_declarator • ClsP
+
+    ClsP  shift, and go to state 173
+
+    $default  reduce using rule 115 (direct_abstract_declarator_optional)
+
+
+State 158
+
+  117 direct_abstract_declarator: direct_abstract_declarator_optional Open_sqBr • constant_expression_optional Close_sqBr
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    $default  reduce using rule 48 (constant_expression_optional)
+
+    constant_expression_optional  go to state 174
+    constant_expression           go to state 52
+    logical_or_expression         go to state 53
+    logical_and_expression        go to state 54
+    inclusive_or_expression       go to state 55
+    exclusive_or_expression       go to state 56
+    and_expression                go to state 57
+    equality_expression           go to state 58
+    relational_expression         go to state 59
+    additive_expression           go to state 60
+    multiplicative_expression     go to state 61
+    cast_expression               go to state 62
+    unary_expression              go to state 63
+    postfix_expression            go to state 64
+    primary_expression            go to state 65
+    constant                      go to state 66
+    unary_operator                go to state 67
+
+
+State 159
+
+  118 direct_abstract_declarator: direct_abstract_declarator_optional OpnP • parameter_type_list_optional ClsP
+
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_typedef   shift, and go to state 13
+    Key_static    shift, and go to state 14
+    Key_union     shift, and go to state 15
+    Key_auto      shift, and go to state 16
+    Key_register  shift, and go to state 17
+    Key_extern    shift, and go to state 18
+    Key_volatile  shift, and go to state 19
+
+    $default  reduce using rule 105 (parameter_type_list_optional)
+
+    declaration_specifier_atlist  go to state 68
+    declaration_specifier         go to state 69
+    storage_class_specifier       go to state 22
+    type_specifier                go to state 23
+    struct_or_union_specifier     go to state 24
+    struct_or_union               go to state 25
+    type_qualifier                go to state 26
+    parameter_type_list_optional  go to state 175
+    parameter_type_list           go to state 176
+    parameter_list                go to state 71
+    parameter_declaration         go to state 72
+
+
+State 160
+
+  110 parameter_list: parameter_list Key_comma parameter_declaration •
+
+    $default  reduce using rule 110 (parameter_list)
+
+
+State 161
+
+  131 compound_statement: Open_Br declaration_crt statement_crt • Close_Br
+  133 statement_crt: statement_crt • statement
+
+    Key_return     shift, and go to state 177
+    Key_break      shift, and go to state 178
+    Key_continue   shift, and go to state 179
+    Key_while      shift, and go to state 180
+    Key_if         shift, and go to state 181
+    Key_goto       shift, and go to state 182
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    Close_Br       shift, and go to state 183
+    Open_Br        shift, and go to state 74
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    $default  reduce using rule 90 (expression_optional)
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    expression_optional        go to state 184
+    expression                 go to state 185
+    assignment_expression      go to state 93
+    unary_operator             go to state 67
+    compound_statement         go to state 186
+    statement                  go to state 187
+    expression_statement       go to state 188
+    if_statement               go to state 189
+    while_statement            go to state 190
+    jump_statement             go to state 191
+
+
+State 162
+
+  121 declaration: declaration_specifier_atlist init_declarator_crt Key_SEMICOL •
+
+    $default  reduce using rule 121 (declaration)
+
+
+State 163
+
+   45 direct_declarator: direct_declarator • Open_sqBr constant_expression_optional Close_sqBr
+   46                  | direct_declarator • OpnP parameter_type_list ClsP
+   47                  | direct_declarator • OpnP identifier_crt ClsP
+  124 init_declarator: direct_declarator •
+  125                | direct_declarator • Op_Assign initializer
+
+    Op_Assign  shift, and go to state 192
+    Open_sqBr  shift, and go to state 31
+    OpnP       shift, and go to state 32
+
+    OpnP      [reduce using rule 124 (init_declarator)]
+    $default  reduce using rule 124 (init_declarator)
+
+
+State 164
+
+  123 init_declarator_crt: init_declarator_crt init_declarator •
+
+    $default  reduce using rule 123 (init_declarator_crt)
+
+
+State 165
+
+   37 struct_declarator_list: struct_declarator_list Key_comma struct_declarator •
+
+    $default  reduce using rule 37 (struct_declarator_list)
+
+
+State 166
+
+   39 struct_declarator: direct_declarator Key_colon constant_expression •
+
+    $default  reduce using rule 39 (struct_declarator)
+
+
+State 167
+
+   97 assignment_expression: unary_expression Op_Assign assignment_expression •
+
+    $default  reduce using rule 97 (assignment_expression)
+
+
+State 168
+
+   93 expression: expression Key_comma assignment_expression •
+
+    $default  reduce using rule 93 (expression)
+
+
+State 169
+
+   76 cast_expression: OpnP type_name ClsP cast_expression •
+
+    $default  reduce using rule 76 (cast_expression)
+
+
+State 170
+
+   80 postfix_expression: postfix_expression Open_sqBr expression Close_sqBr •
+
+    $default  reduce using rule 80 (postfix_expression)
+
+
+State 171
+
+   81 postfix_expression: postfix_expression OpnP assignment_expression_crt ClsP •
+
+    $default  reduce using rule 81 (postfix_expression)
+
+
+State 172
+
+   95 assignment_expression_crt: assignment_expression_crt assignment_expression •
+
+    $default  reduce using rule 95 (assignment_expression_crt)
+
+
+State 173
+
+  116 direct_abstract_declarator: OpnP direct_abstract_declarator ClsP •
+
+    $default  reduce using rule 116 (direct_abstract_declarator)
+
+
+State 174
+
+  117 direct_abstract_declarator: direct_abstract_declarator_optional Open_sqBr constant_expression_optional • Close_sqBr
+
+    Close_sqBr  shift, and go to state 193
+
+
+State 175
+
+  118 direct_abstract_declarator: direct_abstract_declarator_optional OpnP parameter_type_list_optional • ClsP
+
+    ClsP  shift, and go to state 194
+
+
+State 176
+
+  106 parameter_type_list_optional: parameter_type_list •
+  108 parameter_type_list: parameter_type_list • parameter_list
+
+    Key_const     shift, and go to state 7
+    Key_struct    shift, and go to state 8
+    Key_double    shift, and go to state 9
+    Key_int       shift, and go to state 10
+    Key_char      shift, and go to state 11
+    Key_void      shift, and go to state 12
+    Key_typedef   shift, and go to state 13
+    Key_static    shift, and go to state 14
+    Key_union     shift, and go to state 15
+    Key_auto      shift, and go to state 16
+    Key_register  shift, and go to state 17
+    Key_extern    shift, and go to state 18
+    Key_volatile  shift, and go to state 19
+
+    $default  reduce using rule 106 (parameter_type_list_optional)
+
+    declaration_specifier_atlist  go to state 68
+    declaration_specifier         go to state 69
+    storage_class_specifier       go to state 22
+    type_specifier                go to state 23
+    struct_or_union_specifier     go to state 24
+    struct_or_union               go to state 25
+    type_qualifier                go to state 26
+    parameter_list                go to state 121
+    parameter_declaration         go to state 72
+
+
+State 177
+
+  146 jump_statement: Key_return • expression_optional Key_SEMICOL
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    $default  reduce using rule 90 (expression_optional)
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    expression_optional        go to state 195
+    expression                 go to state 185
+    assignment_expression      go to state 93
+    unary_operator             go to state 67
+
+
+State 178
+
+  145 jump_statement: Key_break • Key_SEMICOL
+
+    Key_SEMICOL  shift, and go to state 196
+
+
+State 179
+
+  144 jump_statement: Key_continue • Key_SEMICOL
+
+    Key_SEMICOL  shift, and go to state 197
+
+
+State 180
+
+  142 while_statement: Key_while • OpnP expression ClsP statement
+
+    OpnP  shift, and go to state 198
+
+
+State 181
+
+  140 if_statement: Key_if • OpnP expression ClsP statement
+  141             | Key_if • OpnP expression ClsP statement Key_else statement
+
+    OpnP  shift, and go to state 199
+
+
+State 182
+
+  143 jump_statement: Key_goto • identifier Key_SEMICOL
+
+    identifier  shift, and go to state 200
+
+
+State 183
+
+  131 compound_statement: Open_Br declaration_crt statement_crt Close_Br •
+
+    $default  reduce using rule 131 (compound_statement)
+
+
+State 184
+
+  139 expression_statement: expression_optional • Key_SEMICOL
+
+    Key_SEMICOL  shift, and go to state 201
+
+
+State 185
+
+   91 expression_optional: expression •
+   93 expression: expression • Key_comma assignment_expression
+
+    Key_comma  shift, and go to state 136
+
+    $default  reduce using rule 91 (expression_optional)
+
+
+State 186
+
+  135 statement: compound_statement •
+
+    $default  reduce using rule 135 (statement)
+
+
+State 187
+
+  133 statement_crt: statement_crt statement •
+
+    $default  reduce using rule 133 (statement_crt)
+
+
+State 188
+
+  134 statement: expression_statement •
+
+    $default  reduce using rule 134 (statement)
+
+
+State 189
+
+  136 statement: if_statement •
+
+    $default  reduce using rule 136 (statement)
+
+
+State 190
+
+  137 statement: while_statement •
+
+    $default  reduce using rule 137 (statement)
+
+
+State 191
+
+  138 statement: jump_statement •
+
+    $default  reduce using rule 138 (statement)
+
+
+State 192
+
+  125 init_declarator: direct_declarator Op_Assign • initializer
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    Open_Br        shift, and go to state 202
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    assignment_expression      go to state 203
+    unary_operator             go to state 67
+    initializer                go to state 204
+
+
+State 193
+
+  117 direct_abstract_declarator: direct_abstract_declarator_optional Open_sqBr constant_expression_optional Close_sqBr •
+
+    $default  reduce using rule 117 (direct_abstract_declarator)
+
+
+State 194
+
+  118 direct_abstract_declarator: direct_abstract_declarator_optional OpnP parameter_type_list_optional ClsP •
+
+    $default  reduce using rule 118 (direct_abstract_declarator)
+
+
+State 195
+
+  146 jump_statement: Key_return expression_optional • Key_SEMICOL
+
+    Key_SEMICOL  shift, and go to state 205
+
+
+State 196
+
+  145 jump_statement: Key_break Key_SEMICOL •
+
+    $default  reduce using rule 145 (jump_statement)
+
+
+State 197
+
+  144 jump_statement: Key_continue Key_SEMICOL •
+
+    $default  reduce using rule 144 (jump_statement)
+
+
+State 198
+
+  142 while_statement: Key_while OpnP • expression ClsP statement
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    expression                 go to state 206
+    assignment_expression      go to state 93
+    unary_operator             go to state 67
+
+
+State 199
+
+  140 if_statement: Key_if OpnP • expression ClsP statement
+  141             | Key_if OpnP • expression ClsP statement Key_else statement
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    expression                 go to state 207
+    assignment_expression      go to state 93
+    unary_operator             go to state 67
+
+
+State 200
+
+  143 jump_statement: Key_goto identifier • Key_SEMICOL
+
+    Key_SEMICOL  shift, and go to state 208
+
+
+State 201
+
+  139 expression_statement: expression_optional Key_SEMICOL •
+
+    $default  reduce using rule 139 (expression_statement)
+
+
+State 202
+
+  127 initializer: Open_Br • initializer_list Close_Br
+  128            | Open_Br • initializer_list Key_comma Close_Br
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    Open_Br        shift, and go to state 202
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    assignment_expression      go to state 203
+    unary_operator             go to state 67
+    initializer                go to state 209
+    initializer_list           go to state 210
+
+
+State 203
+
+  126 initializer: assignment_expression •
+
+    $default  reduce using rule 126 (initializer)
+
+
+State 204
+
+  125 init_declarator: direct_declarator Op_Assign initializer •
+
+    $default  reduce using rule 125 (init_declarator)
+
+
+State 205
+
+  146 jump_statement: Key_return expression_optional Key_SEMICOL •
+
+    $default  reduce using rule 146 (jump_statement)
+
+
+State 206
+
+   93 expression: expression • Key_comma assignment_expression
+  142 while_statement: Key_while OpnP expression • ClsP statement
+
+    Key_comma  shift, and go to state 136
+    ClsP       shift, and go to state 211
+
+
+State 207
+
+   93 expression: expression • Key_comma assignment_expression
+  140 if_statement: Key_if OpnP expression • ClsP statement
+  141             | Key_if OpnP expression • ClsP statement Key_else statement
+
+    Key_comma  shift, and go to state 136
+    ClsP       shift, and go to state 212
+
+
+State 208
+
+  143 jump_statement: Key_goto identifier Key_SEMICOL •
+
+    $default  reduce using rule 143 (jump_statement)
+
+
+State 209
+
+  129 initializer_list: initializer •
+
+    $default  reduce using rule 129 (initializer_list)
+
+
+State 210
+
+  127 initializer: Open_Br initializer_list • Close_Br
+  128            | Open_Br initializer_list • Key_comma Close_Br
+  130 initializer_list: initializer_list • Key_comma initializer
+
+    Key_comma  shift, and go to state 213
+    Close_Br   shift, and go to state 214
+
+
+State 211
+
+  142 while_statement: Key_while OpnP expression ClsP • statement
+
+    Key_return     shift, and go to state 177
+    Key_break      shift, and go to state 178
+    Key_continue   shift, and go to state 179
+    Key_while      shift, and go to state 180
+    Key_if         shift, and go to state 181
+    Key_goto       shift, and go to state 182
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    Open_Br        shift, and go to state 74
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    $default  reduce using rule 90 (expression_optional)
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    expression_optional        go to state 184
+    expression                 go to state 185
+    assignment_expression      go to state 93
+    unary_operator             go to state 67
+    compound_statement         go to state 186
+    statement                  go to state 215
+    expression_statement       go to state 188
+    if_statement               go to state 189
+    while_statement            go to state 190
+    jump_statement             go to state 191
+
+
+State 212
+
+  140 if_statement: Key_if OpnP expression ClsP • statement
+  141             | Key_if OpnP expression ClsP • statement Key_else statement
+
+    Key_return     shift, and go to state 177
+    Key_break      shift, and go to state 178
+    Key_continue   shift, and go to state 179
+    Key_while      shift, and go to state 180
+    Key_if         shift, and go to state 181
+    Key_goto       shift, and go to state 182
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    Open_Br        shift, and go to state 74
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    $default  reduce using rule 90 (expression_optional)
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    expression_optional        go to state 184
+    expression                 go to state 185
+    assignment_expression      go to state 93
+    unary_operator             go to state 67
+    compound_statement         go to state 186
+    statement                  go to state 216
+    expression_statement       go to state 188
+    if_statement               go to state 189
+    while_statement            go to state 190
+    jump_statement             go to state 191
+
+
+State 213
+
+  128 initializer: Open_Br initializer_list Key_comma • Close_Br
+  130 initializer_list: initializer_list Key_comma • initializer
+
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    Close_Br       shift, and go to state 217
+    Open_Br        shift, and go to state 202
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    assignment_expression      go to state 203
+    unary_operator             go to state 67
+    initializer                go to state 218
+
+
+State 214
+
+  127 initializer: Open_Br initializer_list Close_Br •
+
+    $default  reduce using rule 127 (initializer)
+
+
+State 215
+
+  142 while_statement: Key_while OpnP expression ClsP statement •
+
+    $default  reduce using rule 142 (while_statement)
+
+
+State 216
+
+  140 if_statement: Key_if OpnP expression ClsP statement •
+  141             | Key_if OpnP expression ClsP statement • Key_else statement
+
+    Key_else  shift, and go to state 219
+
+    Key_else  [reduce using rule 140 (if_statement)]
+    $default  reduce using rule 140 (if_statement)
+
+
+State 217
+
+  128 initializer: Open_Br initializer_list Key_comma Close_Br •
+
+    $default  reduce using rule 128 (initializer)
+
+
+State 218
+
+  130 initializer_list: initializer_list Key_comma initializer •
+
+    $default  reduce using rule 130 (initializer_list)
+
+
+State 219
+
+  141 if_statement: Key_if OpnP expression ClsP statement Key_else • statement
+
+    Key_return     shift, and go to state 177
+    Key_break      shift, and go to state 178
+    Key_continue   shift, and go to state 179
+    Key_while      shift, and go to state 180
+    Key_if         shift, and go to state 181
+    Key_goto       shift, and go to state 182
+    Up_not         shift, and go to state 39
+    Up_LogicalNot  shift, and go to state 40
+    Up_and         shift, and go to state 41
+    Op_Minus       shift, and go to state 42
+    Op_Mult        shift, and go to state 43
+    Op_Plus        shift, and go to state 44
+    Open_Br        shift, and go to state 74
+    OpnP           shift, and go to state 45
+    char_chr       shift, and go to state 46
+    double_num     shift, and go to state 47
+    integer_num    shift, and go to state 48
+    identifier     shift, and go to state 49
+    string_str     shift, and go to state 50
+
+    $default  reduce using rule 90 (expression_optional)
+
+    logical_or_expression      go to state 90
+    logical_and_expression     go to state 54
+    inclusive_or_expression    go to state 55
+    exclusive_or_expression    go to state 56
+    and_expression             go to state 57
+    equality_expression        go to state 58
+    relational_expression      go to state 59
+    additive_expression        go to state 60
+    multiplicative_expression  go to state 61
+    cast_expression            go to state 62
+    unary_expression           go to state 91
+    postfix_expression         go to state 64
+    primary_expression         go to state 65
+    constant                   go to state 66
+    expression_optional        go to state 184
+    expression                 go to state 185
+    assignment_expression      go to state 93
+    unary_operator             go to state 67
+    compound_statement         go to state 186
+    statement                  go to state 220
+    expression_statement       go to state 188
+    if_statement               go to state 189
+    while_statement            go to state 190
+    jump_statement             go to state 191
+
+
+State 220
+
+  141 if_statement: Key_if OpnP expression ClsP statement Key_else statement •
+
+    $default  reduce using rule 141 (if_statement)
