@@ -30,7 +30,7 @@ program         :   {
 commond : func
         ;
 
-func    : if_statement 
+func    : declaration_specifier_crt direct_declarator declaration_crt compound_statement 
         ;
 
 expression_optional :
@@ -49,6 +49,9 @@ assignment_expression :
         | identifier Op_Assign identifier
         ;
 
+type_qualifier : Key_const
+        | Key_volatile
+        ;
 unary_operator : Up_and
         | Op_Mult
         | Op_Plus
@@ -56,16 +59,60 @@ unary_operator : Up_and
         | Up_LogicalNot
         | Up_not
         ;
-/*
+
+storage_class_specifier : Key_auto
+        | Key_register
+        | Key_static
+        | Key_extern
+        | Key_typedef
+        ;
+type_specifier : Key_void
+        | Key_char
+        | Key_int
+        | Key_double
+        ;
+
+type_qualifier : Key_const
+        | Key_volatile
+        ;
+
+
+direct_declarator : identifier
+        | OpnP direct_declarator ClsP /*
+        | direct_declarator Open_sqBr constant_expression_optional Close_sqBr
+        | direct_declarator OpnP parameter_type_list ClsP
+        | direct_declarator OpnP identifier_crt ClsP
+        ;
+*/
+declaration_specifier_crt :
+        | declaration_specifier_crt declaration_specifier 
+        ;
+
+declaration_specifier_atlist : declaration_specifier
+        |declaration_specifier_atlist declaration_specifier
+        ;
+
+declaration_specifier : storage_class_specifier
+        | type_specifier
+        | type_qualifier
+        ;
+
+
 declaration_crt :
         | declaration_crt declaration
         ;
-*/
-//declaration : declaration_specifier_atlist init_declarator_crt Key_SEMICOL ;
+
+declaration : declaration_specifier_atlist init_declarator_crt Key_SEMICOL ;
+
+init_declarator_crt : ;
+		    
+declaration_crt :
+        | declaration_crt declaration
+        ;
+
+declaration : declaration_specifier_atlist init_declarator_crt Key_SEMICOL ;
 
 //statement-----------------------------------------------------------
-//compound_statement : Open_Br declaration_crt statement_crt Close_Br ;
-
 expression_statement : expression_optional Key_SEMICOL ;
 
 jump_statement : Key_goto identifier Key_SEMICOL
@@ -74,6 +121,10 @@ jump_statement : Key_goto identifier Key_SEMICOL
         | Key_return expression_optional Key_SEMICOL
         ;
 
+compound_statement : Open_Br declaration_crt statement_crt Close_Br {printf("ridam to zendegi");}; 
+statement_crt :
+	| statement_crt statement
+	;
 statement : expression_statement
 //        | compound_statement
         | if_statement {printf("ooh my good lord i found if token to redoct !");}
@@ -85,5 +136,4 @@ statement : expression_statement
 if_statement : Key_if OpnP expression ClsP statement {printf("inter in if without else statement !!");}
         ;
 while_statement : Key_while OpnP expression ClsP statement ;
-
-
+%%

@@ -30,7 +30,7 @@ program 	:   {
 commond : func
 	;
 
-func 	: declaration_specifier_crt direct_declarator declaration_crt compound_statement 
+func 	: declaration_specifier_crt direct_declarator OpnP declaration_crt ClsP compound_statement 
 	;
 
 declaration_specifier_crt :
@@ -176,6 +176,7 @@ postfix_expression : primary_expression
 primary_expression : identifier
         | constant
         | string_str 
+
         | OpnP expression ClsP
 	;
 
